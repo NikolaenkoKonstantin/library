@@ -25,12 +25,14 @@ public class PeopleController {
         this.personValidator = personValidator;
     }
 
+    //Conclusion of all people
     @GetMapping()
     public String index(Model model) {
         model.addAttribute("people", personDAO.index());
         return "people/index";
     }
 
+    //Displaying information of a specific person
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.show(id));
@@ -38,11 +40,13 @@ public class PeopleController {
         return "people/show";
     }
 
+    //Create new person, metod GET
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("person") Person person) {
         return "people/new";
     }
 
+    //Creare new person, motod POST
     @PostMapping()
     public String create(@ModelAttribute("person") @Valid Person person,
                          BindingResult bindingResult) {
@@ -55,12 +59,14 @@ public class PeopleController {
         return "redirect:/people";
     }
 
+    //Edit person, metod GET
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("person", personDAO.show(id).get());
         return "people/edit";
     }
 
+    //Edit person, metod PATCH
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult,
                          @PathVariable("id") int id) {
@@ -73,6 +79,7 @@ public class PeopleController {
         return "redirect:/people";
     }
 
+    //Delete person
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
         personDAO.delete(id);
