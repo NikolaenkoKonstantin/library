@@ -21,6 +21,7 @@ public class PersonValidator implements Validator {
         return Person.class.equals(aClass);
     }
 
+    //Check for uniqueness
     @Override
     public void validate(Object o, Errors errors) {
         Person person = (Person) o;
