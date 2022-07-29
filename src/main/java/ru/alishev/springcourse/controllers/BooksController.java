@@ -26,12 +26,14 @@ public class BooksController {
         this.personDAO = personDAO;
     }
 
+    //Output of all books
     @GetMapping()
     public String index(Model model){
         model.addAttribute("books", bookDAO.index());
         return "books/index";
     }
 
+    //Displaying information of a specific book
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         model.addAttribute("book", bookDAO.showIdBook(id));
@@ -45,11 +47,13 @@ public class BooksController {
         return "books/show";
     }
 
+    //Create new book, GET
     @GetMapping("/new")
     public String newBook(@ModelAttribute("book") Book book) {
         return "books/new";
     }
 
+    //Create new book, POST
     @PostMapping()
     public String create(@ModelAttribute("book") @Valid Book book,
                          BindingResult bindingResult) {
@@ -60,12 +64,14 @@ public class BooksController {
         return "redirect:/books";
     }
 
+    //Edit book, GET
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("book", bookDAO.showIdBook(id));
         return "books/edit";
     }
 
+    //Edit book, PATCH
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult,
                          @PathVariable("id") int id) {
@@ -76,18 +82,21 @@ public class BooksController {
         return "redirect:/books";
     }
 
+    //Free book
     @PatchMapping("free/{id}")
     public String freeBook(@PathVariable("id") int id){
         bookDAO.freeBook(id);
         return "redirect:/books/{id}";
     }
 
+    //Appoint book
     @PatchMapping("/appoint/{id}")
     public String bookAppoint(@PathVariable("id") int id, @ModelAttribute("person")Person person){
         bookDAO.bookAppoint(id, person.getIdPerson());
         return "redirect:/books/{id}";
     }
 
+    //Delete book
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
         bookDAO.delete(id);
